@@ -1,0 +1,5 @@
+# Ignore virtual environment
+wikiart-env/
+
+# Ignore FAISS index
+wikiart_index.faiss
