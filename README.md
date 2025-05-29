@@ -1,24 +1,24 @@
-# WikiArt Chatbot
+# WikiArt Chatbot 🎨
 
-A local chatbot that provides information about artwork using semantic search and the Ollama LLM. The chatbot uses WikiArt metadata to answer questions about paintings, artists, styles, and art history.
+An AI-powered chatbot that provides information about famous artworks using semantic search and LLM technology.
 
 ## Features
 
-- Semantic search using FAISS and Sentence Transformers
-- Local LLM integration with Ollama
-- Interactive Gradio web interface
-- Artwork information including titles, artists, styles, and descriptions
-- Fast and efficient vector similarity search
+- 🤖 AI-powered art information assistant
+- 🔍 Semantic search for finding relevant artworks
+- 💬 Natural language conversation interface
+- 🎯 Accurate and detailed art information
+- 🚀 Fast and responsive UI
 
 ## Prerequisites
 
-- Python 3.7+
-- Ollama installed and running locally
-- Required Python packages (see Installation section)
+- Python 3.8 or higher
+- [Ollama](https://ollama.ai/) installed and running locally
+- Llama 3.2 model pulled in Ollama (`ollama pull llama3.2`)
 
 ## Installation
 
-1. Clone this repository:
+1. Clone the repository:
 
 ```bash
 git clone https://github.com/yourusername/wikiart-chatbot.git
@@ -32,53 +32,64 @@ python -m venv wikiart-env
 source wikiart-env/bin/activate
 ```
 
-3. Install required packages:
+3. Install dependencies:
 
 ```bash
-pip install pandas numpy faiss-cpu requests gradio sentence-transformers
+pip install -r requirements.txt
 ```
-
-4. Make sure Ollama is installed and running locally (default port: 11434)
 
 ## Usage
 
-1. Start the chatbot:
+1. Make sure Ollama is running:
 
 ```bash
-python wikiart_chatbot.py
+ollama serve
 ```
 
-2. Open your web browser and navigate to the URL shown in the terminal (typically http://127.0.0.1:7860)
+2. Run the chatbot:
 
-3. Type your questions about art in the text input field and press Enter to get responses
+```bash
+python main.py
+```
 
-## How It Works
-
-1. The chatbot uses a pre-trained sentence transformer model (all-MiniLM-L6-v2) to create embeddings of artwork descriptions
-2. When you ask a question, it performs semantic search to find relevant artwork information
-3. The context from the search results is sent to Ollama (using llama3.2 model) to generate a response
-4. The response is displayed in the web interface
+3. Open your browser and navigate to the URL shown in the terminal (usually http://localhost:7860)
 
 ## Project Structure
 
-- `wikiart_chatbot.py`: Main application file
-- `wikiart_metadata.csv`: Dataset containing artwork information
-- `wikiart_index.faiss`: FAISS index file for fast similarity search
+```
+wikiart-chatbot/
+├── wikiart_chatbot/
+│   ├── __init__.py      # Package initialization
+│   ├── config.py        # Configuration settings
+│   ├── exceptions.py    # Custom exceptions
+│   ├── chatbot.py       # Main chatbot implementation
+│   └── ui.py           # Gradio UI implementation
+├── main.py             # Entry point
+├── requirements.txt    # Dependencies
+├── wikiart_metadata.csv
+└── wikiart_index.faiss
+```
 
-## Requirements
+## Configuration
 
-- pandas
-- numpy
-- faiss-cpu
-- requests
-- gradio
-- sentence-transformers
-- Ollama (running locally)
+You can customize the chatbot by modifying the default settings in `wikiart_chatbot/config.py`:
+
+- Model selection
+- Search parameters
+- History length
+- Timeout settings
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## Contributing
+## Acknowledgments
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+- [Ollama](https://ollama.ai/) for the LLM capabilities
+- [Gradio](https://gradio.app/) for the UI framework
+- [Sentence Transformers](https://www.sbert.net/) for semantic search
+- [FAISS](https://github.com/facebookresearch/faiss) for efficient similarity search
