@@ -42,7 +42,7 @@ class WikiArtChatbot:
         if not metadata_path.exists():
             raise FileNotFoundError(f"Metadata file not found at {metadata_path}")
 
-        self.df = pd.read_csv(metadata_path)
+        self.df = pd.read_csv(metadata_path, quoting=1)  # QUOTE_ALL mode to properly handle commas in fields
         
         if index_path.exists():
             self.index = faiss.read_index(str(index_path))
