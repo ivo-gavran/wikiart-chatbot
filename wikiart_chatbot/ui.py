@@ -30,7 +30,6 @@ def create_ui(config: Optional[Config] = None) -> gr.Blocks:
         with gr.Row():
             msg = gr.Textbox(
                 show_label=False,
-                placeholder="Ask about art...",
                 container=False
             )
             submit = gr.Button("Send", variant="primary")
