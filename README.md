@@ -1,4 +1,4 @@
-# WikiArt Chatbot 🎨
+# WikiArt Chatbot 👨‍🎨
 
 An AI-powered chatbot that provides information about famous artworks using semantic search and LLM technology.
 
