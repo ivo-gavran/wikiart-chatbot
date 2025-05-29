@@ -63,9 +63,9 @@ wikiart-chatbot/
 │   ├── config.py        # Configuration settings
 │   ├── exceptions.py    # Custom exceptions
 │   ├── chatbot.py       # Main chatbot implementation
-│   └── ui.py           # Gradio UI implementation
-├── main.py             # Entry point
-├── requirements.txt    # Dependencies
+│   └── ui.py            # Gradio UI implementation
+├── main.py              # Entry point
+├── requirements.txt     # Dependencies
 ├── wikiart_metadata.csv
 └── wikiart_index.faiss
 ```
