@@ -34,7 +34,7 @@ def create_ui(config: Optional[Config] = None) -> gr.Blocks:
             )
             submit = gr.Button("Send", variant="primary")
         
-        def respond(message: str, chat_history: List[Dict]) -> Tuple[str, List[Dict]]:
+        def respond(message: str, chat_history: Optional[List[Dict]]) -> Tuple[str, List[Dict]]:
             return chatbot.process_message(message, chat_history)
         
         submit.click(respond, [msg, chatbot_interface], [msg, chatbot_interface])
