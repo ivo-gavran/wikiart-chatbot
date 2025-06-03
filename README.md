@@ -38,6 +38,12 @@ source wikiart-env/bin/activate
 pip install -r requirements.txt
 ```
 
+4. Install the package locally so it can be imported anywhere:
+
+```bash
+pip install -e .
+```
+
 ## Usage
 
 1. Make sure Ollama is running:
@@ -86,6 +92,15 @@ You can customize the chatbot by modifying the default settings in `wikiart_chat
 - Search parameters
 - History length
 - Timeout settings
+
+## Running Tests
+
+To run the unit tests, install the development dependencies and execute `pytest`:
+
+```bash
+pip install -e .[dev]
+pytest
+```
 
 ## Contributing
 
