@@ -3,7 +3,6 @@
 import pandas as pd
 import numpy as np
 import faiss
-import os
 import requests
 from sentence_transformers import SentenceTransformer
 from typing import List, Dict, Tuple, Optional
