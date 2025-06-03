@@ -18,4 +18,4 @@ class Config:
     embedding_model: str = DEFAULT_EMBEDDING_MODEL
     ollama_url: str = DEFAULT_OLLAMA_URL
     max_history: int = DEFAULT_MAX_HISTORY
-    timeout: int = DEFAULT_TIMEOUT 
+    timeout: int = DEFAULT_TIMEOUT

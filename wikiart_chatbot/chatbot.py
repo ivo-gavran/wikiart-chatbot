@@ -18,10 +18,10 @@ logger = logging.getLogger(__name__)
 
 class WikiArtChatbot:
     """A chatbot that provides information about artworks using semantic search and LLM."""
-    
+
     def __init__(self, config: Optional[Config] = None):
         """Initialize the chatbot with optional configuration.
-        
+
         Args:
             config: Optional configuration object. If not provided, uses default values.
         """
@@ -32,7 +32,7 @@ class WikiArtChatbot:
 
     def load_data(self) -> None:
         """Load and prepare the data for the chatbot.
-        
+
         Raises:
             FileNotFoundError: If the metadata file is not found.
         """
@@ -43,13 +43,13 @@ class WikiArtChatbot:
             raise FileNotFoundError(f"Metadata file not found at {metadata_path}")
 
         self.df = pd.read_csv(metadata_path, quoting=1)  # QUOTE_ALL mode to properly handle commas in fields
-        
+
         if index_path.exists():
             self.index = faiss.read_index(str(index_path))
         else:
             logger.info("Creating FAISS index...")
             texts = self.df.apply(
-                lambda row: f"{row['title']} by {row['artist']} - {row['style']} ({row['year']}): {row['description']}", 
+                lambda row: f"{row['title']} by {row['artist']} - {row['style']} ({row['year']}): {row['description']}",
                 axis=1
             )
             embeddings = self.embedding_model.encode(texts.tolist(), show_progress_bar=True)
@@ -60,14 +60,14 @@ class WikiArtChatbot:
 
     def search_wikiart(self, query: str, top_k: Optional[int] = None) -> pd.DataFrame:
         """Perform semantic search on the artwork database.
-        
+
         Args:
             query: The search query string.
             top_k: Optional number of results to return. Defaults to config value.
-            
+
         Returns:
             DataFrame containing the search results.
-            
+
         Raises:
             SearchError: If the search operation fails.
         """
@@ -82,14 +82,14 @@ class WikiArtChatbot:
 
     def query_ollama(self, context: str, user_input: str) -> str:
         """Query the Ollama model with improved prompt engineering.
-        
+
         Args:
             context: The context information about artworks.
             user_input: The user's question or input.
-            
+
         Returns:
             The model's response as a string.
-            
+
         Raises:
             OllamaError: If the query to Ollama fails.
         """
@@ -109,11 +109,11 @@ class WikiArtChatbot:
 
     def _create_prompt(self, context: str, user_input: str) -> str:
         """Create the prompt for the Ollama model.
-        
+
         Args:
             context: The context information about artworks.
             user_input: The user's question or input.
-            
+
         Returns:
             The formatted prompt string.
         """
@@ -136,13 +136,13 @@ class WikiArtChatbot:
 
     def _make_ollama_request(self, prompt: str) -> requests.Response:
         """Make the request to the Ollama API.
-        
+
         Args:
             prompt: The prompt to send to Ollama.
-            
+
         Returns:
             The response from the Ollama API.
-            
+
         Raises:
             requests.exceptions.RequestException: If the request fails.
         """
@@ -158,13 +158,13 @@ class WikiArtChatbot:
 
     def _process_ollama_response(self, response: requests.Response) -> str:
         """Process the response from the Ollama API.
-        
+
         Args:
             response: The response from the Ollama API.
-            
+
         Returns:
             The processed response text.
-            
+
         Raises:
             OllamaError: If the response cannot be processed.
         """
@@ -172,20 +172,20 @@ class WikiArtChatbot:
             logger.error(f"Ollama API error: Status code {response.status_code}")
             logger.error(f"Response: {response.text}")
             raise OllamaError(f"Received error from AI model (Status code: {response.status_code})")
-        
+
         response_data = response.json()
         if "response" not in response_data:
             logger.error(f"Unexpected response format: {response_data}")
             raise OllamaError("Received unexpected response format from AI model")
-            
+
         return response_data["response"]
 
     def format_artwork_info(self, row: pd.Series) -> str:
         """Format artwork information in a structured way.
-        
+
         Args:
             row: A pandas Series containing artwork information.
-            
+
         Returns:
             Formatted string containing the artwork information.
         """
@@ -198,12 +198,12 @@ Description: {row['description']}"""
 
     def process_message(self, message: str, history: Optional[List[Dict]]) -> Tuple[str, List[Dict]]:
         """Process a user message and return the response with updated history.
-        
+
         Args:
             message: The user's message.
             history: The current conversation history. If ``None``, a new
                 history list will be created.
-            
+
         Returns:
             Tuple containing an empty string and the updated history.
         """
@@ -218,17 +218,17 @@ Description: {row['description']}"""
 
             context = "\n\n".join(self.format_artwork_info(row) for _, row in matches.iterrows())
             response = self.query_ollama(context, message)
-            
+
             history.append({"role": "user", "content": message})
             history.append({"role": "assistant", "content": response})
-            
+
             if len(history) > self.config.max_history * 2:
                 history = history[-(self.config.max_history * 2):]
-            
+
             return "", history
         except Exception as e:
             logger.error(f"Error processing message: {str(e)}")
             error_msg = f"I encountered an error: {str(e)}"
             history.append({"role": "user", "content": message})
             history.append({"role": "assistant", "content": error_msg})
-            return "", history 
+            return "", history

@@ -5,7 +5,7 @@ wikiart-env/
 wikiart_index.faiss
 
 # Ignore Gradio cache
-.gradio/    
+.gradio/
 
 # Ignore Python cache
 __pycache__/

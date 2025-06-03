@@ -6,4 +6,4 @@ class OllamaError(Exception):
 
 class SearchError(Exception):
     """Base exception for search-related errors."""
-    pass 
+    pass
