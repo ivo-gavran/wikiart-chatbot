@@ -9,6 +9,7 @@ DEFAULT_OLLAMA_URL = "http://localhost:11434/api/generate"
 DEFAULT_TOP_K = 3
 DEFAULT_MAX_HISTORY = 10
 DEFAULT_TIMEOUT = 30
+DEFAULT_INDEX_PATH = "wikiart_index.faiss"
 
 @dataclass
 class Config:
@@ -18,4 +19,5 @@ class Config:
     embedding_model: str = DEFAULT_EMBEDDING_MODEL
     ollama_url: str = DEFAULT_OLLAMA_URL
     max_history: int = DEFAULT_MAX_HISTORY
-    timeout: int = DEFAULT_TIMEOUT 
+    timeout: int = DEFAULT_TIMEOUT
+    index_path: str = DEFAULT_INDEX_PATH

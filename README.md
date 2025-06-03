@@ -54,6 +54,14 @@ python main.py
 
 3. Open your browser and navigate to the URL shown in the terminal (usually http://localhost:7860)
 
+## Creating the FAISS index
+
+The first time you run the chatbot it will automatically generate `wikiart_index.faiss` from `wikiart_metadata.csv`. If you prefer to create the index separately, run:
+
+```bash
+python build_index.py
+```
+
 ## Project Structure
 
 ```
