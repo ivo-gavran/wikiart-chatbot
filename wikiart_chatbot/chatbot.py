@@ -146,7 +146,7 @@ class WikiArtChatbot:
         Raises:
             requests.exceptions.RequestException: If the request fails.
         """
-        return requests.post(
+        response = requests.post(
             self.config.ollama_url,
             json={
                 "model": self.config.model,
@@ -155,6 +155,8 @@ class WikiArtChatbot:
             },
             timeout=self.config.timeout
         )
+        response.raise_for_status()
+        return response
 
     def _process_ollama_response(self, response: requests.Response) -> str:
         """Process the response from the Ollama API.
@@ -168,11 +170,6 @@ class WikiArtChatbot:
         Raises:
             OllamaError: If the response cannot be processed.
         """
-        if response.status_code != 200:
-            logger.error(f"Ollama API error: Status code {response.status_code}")
-            logger.error(f"Response: {response.text}")
-            raise OllamaError(f"Received error from AI model (Status code: {response.status_code})")
-        
         response_data = response.json()
         if "response" not in response_data:
             logger.error(f"Unexpected response format: {response_data}")
