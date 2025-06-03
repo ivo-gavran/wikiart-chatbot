@@ -196,16 +196,18 @@ Style: {row['style']}
 Genre: {row['genre']}
 Description: {row['description']}"""
 
-    def process_message(self, message: str, history: List[Dict]) -> Tuple[str, List[Dict]]:
+    def process_message(self, message: str, history: Optional[List[Dict]]) -> Tuple[str, List[Dict]]:
         """Process a user message and return the response with updated history.
         
         Args:
             message: The user's message.
-            history: The current conversation history.
+            history: The current conversation history. If ``None``, a new
+                history list will be created.
             
         Returns:
             Tuple containing an empty string and the updated history.
         """
+        history = history or []
         try:
             matches = self.search_wikiart(message)
             if matches.empty:
